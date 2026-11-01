@@ -1,0 +1,206 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ── Paleta Inknov: crema cálido + amarillo/gold (estilo Habitactive) ── */
+:root {
+  --radius: 1rem;
+  --background: #f4efe3;
+  --foreground: #26201a;
+  --card: #ffffff;
+  --card-foreground: #26201a;
+  --popover: #ffffff;
+  --popover-foreground: #26201a;
+  --primary: #f2c14e;
+  --primary-foreground: #3a2e14;
+  --secondary: #efe7d3;
+  --secondary-foreground: #4a4131;
+  --muted: #ede5d2;
+  --muted-foreground: #8a8171;
+  --accent: #f9e9c0;
+  --accent-foreground: #4a3a10;
+  --destructive: #cf4141;
+  --border: #e5dcc5;
+  --input: #e5dcc5;
+  --ring: #c9a227;
+  --gold: #c9a227;
+  --gold-soft: #f1d27a;
+  --chart-1: #f2c14e;
+  --chart-2: #c9a227;
+  --chart-3: #d97742;
+  --chart-4: #a8b98a;
+  --chart-5: #8fb5a3;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #26201a;
+  --sidebar-primary: #f2c14e;
+  --sidebar-primary-foreground: #3a2e14;
+  --sidebar-accent: #f9e9c0;
+  --sidebar-accent-foreground: #4a3a10;
+  --sidebar-border: #e5dcc5;
+  --sidebar-ring: #c9a227;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  /* Evita el zoom automático de iOS al enfocar campos de texto */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Utilidades amables para móviles */
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Editor Tiptap ──────────────────────────────────────────────── */
+.inknov-editor .ProseMirror {
+  min-height: 46vh;
+  outline: none;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.0625rem;
+  line-height: 1.9;
+  word-break: break-word;
+}
+.inknov-editor .ProseMirror p.is-empty::before {
+  content: attr(data-placeholder);
+  color: #b9af9a;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.inknov-editor .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.9rem;
+  margin: 0.4rem 0;
+  box-shadow: 0 8px 28px rgb(38 32 26 / 0.14);
+}
+.inknov-editor .ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1.2rem 0 0.6rem;
+}
+.inknov-editor .ProseMirror h3 {
+  font-size: 1.22rem;
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+}
+.inknov-editor .ProseMirror ul {
+  list-style: disc;
+  padding-left: 1.6rem;
+  margin: 0.4rem 0;
+}
+.inknov-editor .ProseMirror ol {
+  list-style: decimal;
+  padding-left: 1.6rem;
+  margin: 0.4rem 0;
+}
+.inknov-editor .ProseMirror li p {
+  margin: 0.15rem 0;
+}
+.inknov-editor .ProseMirror blockquote {
+  border-left: 3px solid #c9a227;
+  padding-left: 1rem;
+  margin: 0.8rem 0;
+  color: #6b6252;
+  font-style: italic;
+}
+.inknov-editor .ProseMirror pre {
+  background: #f6f1e4;
+  border-radius: 0.75rem;
+  padding: 0.8rem 1rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+.inknov-editor .ProseMirror code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  background: #f6f1e4;
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.9em;
+}
+.inknov-editor .ProseMirror pre code {
+  background: transparent;
+  padding: 0;
+}
+.inknov-editor .ProseMirror hr {
+  border: none;
+  border-top: 2px solid #e5dcc5;
+  margin: 1.6rem 0;
+}
+
+/* Barra de desplazamiento discreta para listas largas */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d8cdb2 transparent;
+}
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: #d8cdb2;
+  border-radius: 999px;
+}
