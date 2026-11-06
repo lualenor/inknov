@@ -177,7 +177,7 @@ export function EditorView({
     };
   }, [flushSave]);
 
-  /** Subida de imágenes JPG/PNG desde el celular. */
+  /** Subida de imágenes JPG/PNG desde el celular/PC a Vercel Blob. */
   const handleFiles = useCallback(
     async (fileList: FileList | File[]) => {
       if (!editor) return;
@@ -192,31 +192,33 @@ export function EditorView({
         }
         setUploads((n) => n + 1);
         try {
-          const fd = new FormData();
-          fd.append("file", file);
-          const res = await fetch(`/api/notes/${noteId}/images`, {
-            method: "POST",
-            body: fd,
-          });
-          const data = await res.json().catch(() => ({}));
-          if (!res.ok) {
-            toast({
-              title: data.error ?? "No se pudo subir la imagen",
-              variant: "destructive",
-            });
-          } else {
-            editor
-              .chain()
-              .focus()
-              .setImage({ src: data.image.url, alt: file.name })
-              .run();
-            // La inserción de la imagen también debe guardarse
-            scheduleSave({
-              contentJson: JSON.stringify(editor.getJSON()),
-              plainText: editor.getText().slice(0, 4000),
-            });
+          const response = await fetch(
+            `/api/upload?filename=${encodeURIComponent(file.name)}`,
+            {
+              method: "POST",
+              body: file,
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("No se pudo subir la imagen a la nube");
           }
-        } catch {
+
+          const blob = await response.json();
+
+          editor
+            .chain()
+            .focus()
+            .setImage({ src: blob.url, alt: file.name })
+            .run();
+
+          // La inserción de la imagen también debe guardarse
+          scheduleSave({
+            contentJson: JSON.stringify(editor.getJSON()),
+            plainText: editor.getText().slice(0, 4000),
+          });
+        } catch (error) {
+          console.error("Error al subir la imagen:", error);
           toast({
             title: "Sin conexión para subir la imagen",
             variant: "destructive",
@@ -226,7 +228,7 @@ export function EditorView({
         }
       }
     },
-    [editor, noteId, scheduleSave, toast]
+    [editor, scheduleSave, toast]
   );
 
   useEffect(() => {
